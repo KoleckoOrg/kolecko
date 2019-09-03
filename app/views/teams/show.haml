@@ -36,10 +36,10 @@
     %td
       = @team.phone
 
-  %tr
-    %td Zaplaceno
-    %td
-      = @team.payed? ? 'Ano' : 'Ne'
+  /= %tr
+  /=   %td Zaplaceno
+  /=   %td
+  /=     = @team.payed? ? 'Ano' : 'Ne'
 
   %tr
     %td iKolečko coins

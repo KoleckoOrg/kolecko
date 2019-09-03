@@ -11,8 +11,8 @@ class Hint < ApplicationRecord
   def open
     self.opened = true
     from_team.points += hint_request.bounty * 3 / 10
-    self.help_request.closed = true
-    self.help_request.save
+    self.hint_request.closed = true
+    self.hint_request.save
   end
 
   def accept

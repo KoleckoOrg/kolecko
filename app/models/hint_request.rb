@@ -1,8 +1,8 @@
 class BalanceValidator < ActiveModel::Validator
   def validate(record)
     if record.team.points < 0
-      message = "Pro tuto akci nemáte dostatek bodů " \
-                "(#{record.team.points_was} bodů k dispozici)"
+      message = "Pro tuto akci nemáte dostatek OCoinů " \
+                "(#{I18n.t(:ocoins, count: record.team.points_was)} k dispozici)"
       record.errors.add(:base, message)
     end
   end

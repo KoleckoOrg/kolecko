@@ -20,7 +20,7 @@
         <% if have_visit and have_visit.solved? %>
           <tr>
             <td><%= hint_request.puzzle.full_name %></td>
-            <td><%= hint_request.bounty %> OCoinů</td>
+            <td><%= t(:ocoins, count: hint_request.bounty) %></td>
             <td><%= hint_request.note %></td>
             <td>
               <%= link_to 'Poslat nápovědu', answer_hint_request_path(hint_request) %>
@@ -61,7 +61,7 @@
         <% end %>
           <tr>
             <td><%= hint.hint_request.puzzle.full_name %></td>
-            <td><%= hint.hint_request.bounty %> OCoinů</td>
+            <td><%= t(:ocoins, count: hint.hint_request.bounty) %></td>
             <td><%= hint.hint_request.note %></td>
             <td><%= hint.text %></td>
             <td><%= status %></td>

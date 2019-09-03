@@ -27,6 +27,10 @@ cs:
     one: '1 bod'
     few: '%{count} body'
     other: '%{count} bodů'
+  ocoins:
+    one: '1 OCoin'
+    few: '%{count} OCoiny'
+    other: '%{count} OCoinů'
 
   errors:
     format: '%{attribute} %{message}'

@@ -10,16 +10,12 @@ class Hint < ApplicationRecord
 
   def open
     self.opened = true
-    bounty_deposit = hint_request.bounty / 3
-    from_team.points += bounty_deposit
-    to_team.points -= bounty_deposit
+    from_team.points += hint_request.bounty * 3 / 10
   end
 
   def accept
     self.accepted = true
-    bounty_rest = hint_request.bounty - hint_request.bounty / 3
-    from_team.points += bounty_rest
-    to_team.points -= bounty_rest
+    from_team.points += hint_request.bounty - hint_request.bounty * 3 / 10
   end
 
   before_save prepend: true do

@@ -32,13 +32,22 @@ class HintsController < ApplicationController
   def create
     @hint = Hint.new(hint_params)
     @hint.from_team = current_team
+    @request = @hint.hint_request
 
-    if @hint.save
-      flash[:success] = 'Nápověda odeslána'
+    if @hint.hint_request.cancelled
+      flash[:alert] = 'Žádost o nápovědu byla zrušena'
+      redirect_to queue_hint_requests_path
+    elsif @hint.hint_request.closed
+      flash[:alert] = 'Žádost o nápovědu již není aktivní (tým využil nápovědu od někoho jiného)'
       redirect_to queue_hint_requests_path
     else
-      flash[:alert] = @hint.errors.full_messages.join('<br>')
-      redirect_to answer_hint_request_path
+      if @hint.save
+        flash[:success] = 'Nápověda odeslána'
+        redirect_to queue_hint_requests_path
+      else
+        flash[:alert] = @hint.errors.full_messages.join('<br>')
+        redirect_to answer_hint_request_path
+      end
     end
   end
 

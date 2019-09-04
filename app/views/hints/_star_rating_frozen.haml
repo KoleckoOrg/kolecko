@@ -1,8 +1,12 @@
 = form_with model: hint, class: 'star-rating-form', data: { 'hint': hint.id } do |form|
   = form.hidden_field :rating, value: 0, class: 'rating'
-  .star-rating{ class: ('frozen' if hint.rating?) }
+  .star-rating
     - (1..5).each do |i|
-      .star{ data: { rating: "#{i}" }, class: ('frozen' if hint.rating?) }
-        %i.far.fa-star
+      - if hint.rating?
+        .frozen
+          %i.far.fa-star
+      - else
+        .star{ data: { rating: "#{i}" } }
+          %i.far.fa-star
   - unless hint.rating?
     = submit_tag 'Odeslat hodnocení'

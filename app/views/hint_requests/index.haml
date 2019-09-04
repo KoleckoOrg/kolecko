@@ -19,8 +19,6 @@
             - if opened_hint
               = opened_hint.text
               = star_rating(opened_hint)
-              .accept-hint
-                = accept_hint_link(opened_hint)
             - else
               .hint-target
                 - hint_request.hints.each do |hint|

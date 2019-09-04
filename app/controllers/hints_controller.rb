@@ -56,11 +56,13 @@ class HintsController < ApplicationController
   def update
     @hint = Hint.find(params[:id])
 
-    respond_to do |format|
-      if @hint.update(hint_params)
-        format.js { render layout: false }
-      end
+    if @hint.update(hint_params)
+      flash[:success] = 'Hodnocení odesláno'
+    else
+      flash[:alert] = 'Hodnocení se nepodařilo odeslat'
     end
+
+    redirect_to hint_requests_path
   end
 
   def accept

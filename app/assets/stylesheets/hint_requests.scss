@@ -6,6 +6,10 @@
   cursor: pointer;
 }
 
+.star-rating.frozen {
+  cursor: default;
+}
+
 .star {
   display: inline;
 }

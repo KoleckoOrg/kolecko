@@ -12,14 +12,14 @@ $(document).on 'turbolinks:load', ->
         $('input.rating', form).val(hint.rating).change()
 
   # Highlight stars on mouse over
-  $(document).on 'mouseenter', '.star', ->
+  $(document).on 'mouseenter', '.star:not(.frozen)', ->
     $(this).prevAll().addBack().find('i').removeClass('far')
     $(this).prevAll().addBack().find('i').addClass('fas')
     $(this).nextAll().find('i').removeClass('fas')
     $(this).nextAll().find('i').addClass('far')
 
   # Un-highlight stars on mouse out
-  $(document).on 'mouseleave', '.star', ->
+  $(document).on 'mouseleave', '.star:not(.frozen)', ->
     $(this).prevAll().addBack().find('i').removeClass('fas')
     $(this).prevAll().addBack().find('i').addClass('far')
     $(this).nextAll().find('i').removeClass('far')
@@ -38,16 +38,14 @@ $(document).on 'turbolinks:load', ->
         $('i', this).addClass('far')
 
   # Show current rating when mouse leaves the widget
-  $(document).on 'mouseleave', '.star-rating', ->
+  $(document).on 'mouseleave', '.star-rating:not(.frozen)', ->
     resetStars(this)
 
   # Show current rating when hidden field updated
   $(document).on 'change', '.rating', ->
     resetStars($(this).closest('.star-rating-form'))
 
-  # Submit hint rating when a star is clicked
-  $(document).on 'click', '.star', ->
+  # Update hint rating when a star is clicked
+  $(document).on 'click', '.star:not(.frozen)', ->
     form = $(this).closest('form')
     $('.rating', form).val($(this).data('rating'))
-    formElement = form[0]
-    Rails.fire(formElement, 'submit')

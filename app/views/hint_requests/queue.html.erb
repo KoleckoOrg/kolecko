@@ -1,5 +1,5 @@
 <h1>Napovídání jiným týmům</h1>
-<h2>Aktivní žádosti</h2>
+<h2>Aktivní žádosti o nápovědu</h2>
 <% if not @hint_requests.empty? %>
   <table class="table">
     <tr>
@@ -9,24 +9,47 @@
       <th>Nápověda</th>
     </tr>
     <% @hint_requests.each do |hint_request| %>
-      <% have_visit = current_team.visits.find_by(puzzle_id: hint_request.puzzle.id) %>
-      <% if have_visit and have_visit.solved? %>
-        <tr>
-          <td><%= hint_request.puzzle.full_name %></td>
-          <td><%= hint_request.bounty %> OCoinů</td>
-          <td><%= hint_request.note %></td>
-          <td>
-            <% hint = hint_request.hints.find_by(team_id: current_team.id) %>
-            <% if hint %>
-              <%= hint.text %>
-            <% else %>
+      <%# Active are the ones with no hints, no opeded hint, or no hints from us! %>
+      <% c = hint_request.hints.count %>
+      <% no_opened = (hint_request.hints.where(opened: nil).count == hint_request.hints.count)  %>
+      <% from_us = hint_request.hints.where(team_id: current_team.id).count %>
+      <%# FIXME: the last one needs to be checked also later, since ATM two hints can be send from two browser instances! %>
+      <% if c == 0 || (no_opened && from_us < 1) %>
+        <%# Check if we have solved this puzzle! %>
+        <% have_visit = current_team.visits.find_by(puzzle_id: hint_request.puzzle.id) %>
+        <% if have_visit and have_visit.solved? %>
+          <tr>
+            <td><%= hint_request.puzzle.full_name %></td>
+            <td><%= hint_request.bounty %> OCoinů</td>
+            <td><%= hint_request.note %></td>
+            <td>
               <%= link_to 'Poslat nápovědu', answer_hint_request_path(hint_request) %>
-            <% end %>
-          </td>
-        </tr>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    <% end %>
+  </table>
+  <h2>Dříve odeslané nápovědy</h2>
+  <table class="table">
+    <tr>
+      <th>Šifra</th>
+      <th>Odměna</th>
+      <th>Poznámka</th>
+      <th>Nápověda</th>
+    </tr>
+    <% @hint_requests.each do |hint_request| %>
+      <%# Find hints from us! %>
+      <% hint = hint_request.hints.find_by(team_id: current_team.id) %>
+        <% if hint %>
+          <tr>
+            <td><%= hint_request.puzzle.full_name %></td>
+            <td><%= hint_request.bounty %> OCoinů</td>
+            <td><%= hint_request.note %></td>
+            <td><%= hint.text %></td>
+          </tr>
+        <% %>
       <% end %>
     <% end %>
   </table>
 <% end %>
-<h2>Dříve poslané žádosti</h2>
-FIXME

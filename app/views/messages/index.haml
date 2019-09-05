@@ -1,0 +1,6 @@
+%h1 Zprávy od orgů
+- current_team.team_messages.order(created_at: :desc).each do |team_message|
+  %p
+    = team_message.created_at.strftime '%H:%M'
+    %br
+    = team_message.message.text

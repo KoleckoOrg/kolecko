@@ -50,6 +50,12 @@ ActiveRecord::Schema.define(version: 20190903081143) do
     t.index ["team_id"], name: "index_hints_on_team_id"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.string "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "puzzles", force: :cascade do |t|
     t.string "name"
     t.string "code"
@@ -68,6 +74,16 @@ ActiveRecord::Schema.define(version: 20190903081143) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["puzzle_id"], name: "index_solutions_on_puzzle_id"
+  end
+
+  create_table "team_messages", force: :cascade do |t|
+    t.bigint "team_id"
+    t.bigint "message_id"
+    t.boolean "read", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id"], name: "index_team_messages_on_message_id"
+    t.index ["team_id"], name: "index_team_messages_on_team_id"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -116,6 +132,8 @@ ActiveRecord::Schema.define(version: 20190903081143) do
   add_foreign_key "answers", "visits"
   add_foreign_key "hint_requests", "visits"
   add_foreign_key "solutions", "puzzles"
+  add_foreign_key "team_messages", "messages"
+  add_foreign_key "team_messages", "teams"
   add_foreign_key "visits", "puzzles"
   add_foreign_key "visits", "teams"
 end

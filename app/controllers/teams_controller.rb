@@ -34,6 +34,9 @@ class TeamsController < ApplicationController
     end
   end
 
+  def inbox
+  end
+
   private
     def skip_authenticate_team
       action_name == 'index' && request.format.json?

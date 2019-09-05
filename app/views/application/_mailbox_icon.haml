@@ -1,0 +1,7 @@
+.mailbox
+  = link_to inbox_path do
+    %i.fa.fa-envelope
+    %span.badge<
+      - if number > 0
+        = number
+

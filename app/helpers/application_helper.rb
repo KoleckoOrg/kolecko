@@ -6,6 +6,11 @@ module ApplicationHelper
     end
   end
 
+  def mailbox_icon
+    count_unread = current_team.team_messages.where(read: false).count
+    render(partial: 'mailbox_icon', locals: {number: count_unread})
+  end
+
   def menu_item(text, path, icon, **options)
     render(partial: 'menu_item',
            locals: {text: text, path: path, icon: icon, options: options})

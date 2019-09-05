@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   resources :teams, path: 'tymy'
 
+  get '/inbox', to: 'messages#index'
+
   resources :visits, path: 'pruchod', only: [:index, :new, :create], path_names: {new: 'zadat'}
   get '/mapa', to: 'visits#map', as: :map
 

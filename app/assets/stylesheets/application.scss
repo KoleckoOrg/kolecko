@@ -52,6 +52,19 @@ div {
     height: 23px;
 }
 
+.mailbox {
+  position: relative;
+}
+
+.badge:not(:empty) {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  padding: 1px 3px;
+  background: #cc0000;
+  font-size: 11px;
+}
+
 .header .fa-user {
     margin-left: 30px;
 }

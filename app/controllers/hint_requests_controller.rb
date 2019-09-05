@@ -55,9 +55,30 @@ class HintRequestsController < ApplicationController
   end
 
   def edit
+    @hint_request = HintRequest.find(params[:id])
+    if @hint_request.team != current_team
+      flash[:alert] = 'Nemáte právo k úpravě této nápovědy'
+      redirect_to hint_requests_path
+    end
   end
 
   def update
+    @hint_request = HintRequest.find(params[:id])
+    if @hint_request.team != current_team
+      flash[:alert] = 'Nemáte právo k úpravě této nápovědy'
+    else
+      increase = hint_request_params[:bounty].to_f - @hint_request.bounty
+      if current_team.points >= increase
+        @hint_request.bounty = hint_request_params[:bounty]
+        @hint_request.save
+        current_team.points -= increase
+        current_team.save
+        flash[:success] = 'Odměna úspěsně navýšena'
+      else
+         flash[:alert] = 'K provedení akce nemáte dost OCoinů'
+      end
+    end
+    redirect_to hint_requests_path
   end
 
   def cancel

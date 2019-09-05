@@ -27,4 +27,4 @@
                   = link_to "Zobrazit nápovědu", hint, class: 'show-hint', remote: true
                   = "(kvalita: #{hint.from_team.hint_quality})"
                   %br
-                = link_to 'Zrušit žádost', cancel_hint_request_path(hint_request)
+                = link_to 'Zvýšit odměnu', edit_hint_request_path(hint_request)

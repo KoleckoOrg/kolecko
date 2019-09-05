@@ -1,0 +1,15 @@
+<h1>Navýšit odměnu za nápovědu</h1>
+
+<p>Šifra: <%= @hint_request.puzzle.full_name %></p>
+<p>Stávající odměna: <%= @hint_request.bounty %></p>
+
+<%= form_for @hint_request, url: {action: 'update'}, :method => :PATCH do |form| %>
+  <div class="field">
+    <%= form.label :bounty, ' Nová odměna' %><br>
+    <%= form.number_field :bounty, min: @hint_request.bounty %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Odeslat' %>
+  </div>
+<% end %>

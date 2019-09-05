@@ -26,7 +26,9 @@ class HintRequest < ApplicationRecord
 
   validates_with BalanceValidator, CancelValidator
 
-  before_save do
-    self.closed = true if self.cancelled?
-  end
+# this is probably something I don't want
+#  before_save do
+#    self.closed = true if self.cancelled?
+#  end
+
 end

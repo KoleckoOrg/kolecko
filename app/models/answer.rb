@@ -12,11 +12,11 @@ class HintValidator < ActiveModel::Validator
       record.errors.add(:base, message)
     end
 
-    has_accepted_hint = hints.where(opened: true, accepted: true).exists?
-    if !has_accepted_hint
-      message = "Alespoň jednu nápovědu musíte označit jako přijatou"
-      record.errors.add(:base, message)
-    end
+#    has_accepted_hint = hints.where(opened: true, accepted: true).exists?
+#    if !has_accepted_hint
+#      message = "Alespoň jednu nápovědu musíte označit jako přijatou"
+#      record.errors.add(:base, message)
+#    end
   end
 end
 

@@ -19,17 +19,17 @@
     .menu.closed
       %ul.main-menu
         - if team_signed_in?
-          /= = submenu(t(:visits), 'fa fa-map-signs') do
-          /=   = submenu_item(t(:new_visit), new_visit_path)
-          /=   = submenu_item('Příchody a odchody', visits_path)
-          /= = submenu('Odpovědi', 'fa fa-comment') do
-          /=   = submenu_item(t(:new_answer), new_answer_path)
-          /=   = submenu_item(t(:my_answers), answers_path)
-          /= = submenu(t(:hints), 'fa fa-question-circle') do
-          /=   = submenu_item('Požádat o nápovědu', new_hint_request_path)
-          /=   = submenu_item('Přijaté nápovědy', hint_requests_path)
-          /=   = submenu_item('Poslat nápovědu jinému týmu', queue_hint_requests_path)
-          /= = menu_item(t(:map), map_path, 'fa fa-map')
+          = submenu(t(:visits), 'fa fa-map-signs') do
+            = submenu_item(t(:new_visit), new_visit_path)
+            = submenu_item('Příchody a odchody', visits_path)
+          = submenu('Odpovědi', 'fa fa-comment') do
+            = submenu_item(t(:new_answer), new_answer_path)
+            = submenu_item(t(:my_answers), answers_path)
+          = submenu(t(:hints), 'fa fa-question-circle') do
+            = submenu_item('Požádat o nápovědu', new_hint_request_path)
+            = submenu_item('Přijaté nápovědy', hint_requests_path)
+            = submenu_item('Poslat nápovědu jinému týmu', queue_hint_requests_path)
+          = menu_item(t(:map), map_path, 'fa fa-map')
           = menu_item('Tým', team_path(current_team), 'fa fa-user')
           = menu_item(t(:teams), teams_path, 'fa fa-users')
         - else

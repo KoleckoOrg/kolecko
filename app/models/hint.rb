@@ -15,6 +15,7 @@ class Hint < ApplicationRecord
 
   def accept
     self.accepted = true
+    #FIXME: based on hint rating
     from_team.points += hint_request.bounty - hint_request.bounty * 3 / 10
   end
 

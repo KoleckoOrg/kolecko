@@ -62,7 +62,19 @@ class HintRequestsController < ApplicationController
   def cancel
     @hint_request = HintRequest.find(params[:id])
     @hint_request.cancelled = true
-    @hint_request.team.points += @hint_request.bounty
+    count = @hint_request.hints.count
+    # If no hint was received, just return 70% of the points to the team
+    if count == 0
+      @hint_request.team.points += @hint_request.bounty * 7 / 10
+    # else split it between all teams which sent hints
+    else
+      @hint_request.hints.each do |h|
+        t = Team.find_by(id: h.team_id)
+        t.points += @hint_request.bounty * 7 / 10 / count
+        t.save
+      end
+    end
+
     if @hint_request.save
       flash[:success] = 'Úspěšně zrušeno'
     else

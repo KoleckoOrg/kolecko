@@ -10,6 +10,7 @@ class HintRequestsController < ApplicationController
    @hint_requests = HintRequest.joins(:visit).
                                 where.not(visits: { team: current_team },
                                           cancelled: true)
+   @hints_from_me = Hint.where(team_id: current_team.id)
   end
 
   def new

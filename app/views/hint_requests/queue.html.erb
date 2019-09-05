@@ -39,9 +39,8 @@
       <th>Nápověda</th>
       <th>Status</th>
     </tr>
-    <% @hint_requests.each do |hint_request| %>
+    <% @hints_from_me.each do |hint| %>
       <%# Find hints from us! %>
-      <% hint = hint_request.hints.find_by(team_id: current_team.id) %>
         <% if hint %>
           <% if hint.opened == true %>
             <% if hint.accepted == true %>
@@ -50,16 +49,20 @@
               <% status = 'Otevřena' %>
             <% end %>
           <% else %>
-            <% if hint_request.hints.where(opened: true).count > 0 %>
-              <% status = 'Nebyla vybrána' %>
-            <% else %>
+          <% if hint.hint_request.hints.where(opened: true).count > 0 %>
+            <% status = 'Nebyla vybrána' %>
+          <% else %>
+            <% if hint.hint_request.cancelled == false %>
               <% status = 'Čeká na otevření' %>
+            <% else %>
+              <% status = 'Žádost zrušena' %>
             <% end %>
           <% end %>
+        <% end %>
           <tr>
-            <td><%= hint_request.puzzle.full_name %></td>
-            <td><%= hint_request.bounty %> OCoinů</td>
-            <td><%= hint_request.note %></td>
+            <td><%= hint.hint_request.puzzle.full_name %></td>
+            <td><%= hint.hint_request.bounty %> OCoinů</td>
+            <td><%= hint.hint_request.note %></td>
             <td><%= hint.text %></td>
             <td><%= status %></td>
           </tr>

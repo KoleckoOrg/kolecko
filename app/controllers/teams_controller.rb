@@ -16,6 +16,10 @@ class TeamsController < ApplicationController
 
   def show
     @team = Team.find(params[:id])
+    if @team.name != current_team.name
+      flash[:alert] = 'K prohlížení údajů tohoto týmu nemáte potřebné oprávnění'
+      @team = current_team
+    end
   end
 
   def edit

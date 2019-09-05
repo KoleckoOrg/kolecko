@@ -44,7 +44,7 @@
         <% if hint %>
           <% if hint.opened == true %>
             <% if hint.accepted == true %>
-              <% status = 'Ohodnocena: %.0f' % hint.rating %>
+              <% status = 'Ohodnocena: %.0f' % (hint.rating || -1.0) %>
             <% else %>
               <% status = 'Otevřena' %>
             <% end %>

@@ -3,14 +3,12 @@
   %table.table
     %tr
       %th Šifra
-      %th Tým
       %th Poznámka
       %th Odměna
       %th Nápověda
     - @hint_requests.each do |hint_request|
       %tr
         %td= hint_request.puzzle.full_name
-        %td= hint_request.team.name
         %td= hint_request.note
         %td= t(:points, count: hint_request.bounty)
         %td

@@ -23,6 +23,10 @@ class VisitsController < ApplicationController
     if @puzzle
       @visit = Visit.new(puzzle: @puzzle, team: current_team)
       if @visit.save
+        if @puzzle.puztype == "secondary"
+          current_team.points += @puzzle.points
+          current_team.save
+        end
         redirect_to visits_path
       else
         flash[:alert] = 'Příchod na stanoviště byl již zaznamenán'

@@ -4,6 +4,8 @@ class Puzzle < ApplicationRecord
   has_many :solutions, dependent: :destroy
   has_many :answers, through: :visits, dependent: :destroy
 
+  enum puztype: [:main, :secondary, :final]
+
   validates :solutions, presence: true
 
   before_save do

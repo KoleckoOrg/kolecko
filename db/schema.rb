@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190903081143) do
+ActiveRecord::Schema.define(version: 20190906160029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,8 @@ ActiveRecord::Schema.define(version: 20190903081143) do
     t.float "longitude"
     t.datetime "opens_at"
     t.datetime "closes_at"
+    t.integer "points"
+    t.integer "puztype"
   end
 
   create_table "solutions", force: :cascade do |t|

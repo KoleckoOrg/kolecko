@@ -21,6 +21,8 @@ class Hint < ApplicationRecord
   end
 
   def accept
+    #FIXME: this path is no longer active
+    #needs to be moved to the hint_update codepath
     self.accepted = true
     #FIXME: the amount should be based on hint rating
     amount = hint_request.bounty - hint_request.bounty * 3 / 10

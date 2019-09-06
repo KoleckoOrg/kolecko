@@ -47,6 +47,9 @@ class HintRequestsController < ApplicationController
 
     if @hint_request.save
       flash[:success] = 'Žádost úspěšně odeslána'
+      ot = OcoinTransaction.new(team: current_team, points: -@hint_request.bounty,
+                                message: 'Žádost o nápovědu pro šifru %s' % @visit.puzzle.name)
+      ot.save
       redirect_to hint_requests_path
     else
       flash[:alert] = @hint_request.errors.full_messages.join('<br>')
@@ -73,6 +76,10 @@ class HintRequestsController < ApplicationController
         @hint_request.save
         current_team.points -= increase
         current_team.save
+        ot = OcoinTransaction.new(team: current_team, points: -increase,
+                                  message: 'Navýšení žádosti o nápovědu pro šifru %s' \
+                                  % @hint_request.visit.puzzle.name)
+        ot.save
         flash[:success] = 'Odměna úspěsně navýšena'
       else
          flash[:alert] = 'K provedení akce nemáte dost OCoinů'
@@ -82,17 +89,23 @@ class HintRequestsController < ApplicationController
   end
 
   def cancel
-    @hint_request = HintRequest.find(params[:id])
-    @hint_request.cancelled = true
-    count = @hint_request.hints.count
-    # If no hint was received, just return 70% of the points to the team
     if count == 0
-      @hint_request.team.points += @hint_request.bounty * 7 / 10
+      amount = @hint_request.bounty * 7 / 10
+      @hint_request.team.points += amount
+      ot = OcoinTransaction.new(team: current_team, points: amount,
+                                message: '70% bodů zpět za nevyužitou nápovědu k šifře %s' \
+                                % @hint_request.visit.puzzle.name)
+      ot.save
     # else split it between all teams which sent hints
     else
       @hint_request.hints.each do |h|
         t = Team.find_by(id: h.team_id)
-        t.points += @hint_request.bounty * 7 / 10 / count
+        amount = @hint_request.bounty * 7 / 10 / count
+        ot = OcoinTransaction.new(team: t, points: amount,
+                                  message: '70% bodů zpět za nápovědu k šifře %s' \
+                                  % @hint_request.visit.puzzle.name)
+        ot.save
+        t.points += amount
         t.save
       end
     end

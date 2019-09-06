@@ -10,16 +10,26 @@ class Hint < ApplicationRecord
 
   def open
     self.opened = true
-    from_team.points += hint_request.bounty * 3 / 10
+    amount = hint_request.bounty * 3 / 10
+    from_team.points += amount
+    ot = OcoinTransaction.new(team: from_team, points: amount,
+                              message: 'Otevřena nápověda k šifře %s' \
+                              % hint_request.visit.puzzle.name)
+    ot.save
     self.hint_request.closed = true
     self.hint_request.save
   end
 
   def accept
     self.accepted = true
-    #FIXME: based on hint rating
-    from_team.points += hint_request.bounty - hint_request.bounty * 3 / 10
-  end
+    #FIXME: the amount should be based on hint rating
+    amount = hint_request.bounty - hint_request.bounty * 3 / 10
+    from_team.points += amount
+    ot = OcoinTransaction.new(team: from_team, points: amount,
+                              message: 'Ohodnocena nápověda k šifře %s' \
+                              % hint_request.visit.puzzle.name)
+    ot.save
+ end
 
   before_save prepend: true do
     self.hint_request.closed = true if self.opened?

@@ -1,0 +1,10 @@
+<h1>OCoinové konto</h1>
+
+<p>Stav konta: <%= @points %></p>
+
+<h2>Historie transakcí</h2>
+<% @ot.each do |t| %>
+  <%= t.created_at %>
+  <%= t.points %>
+  <%= t.message %><br>
+<% end %>

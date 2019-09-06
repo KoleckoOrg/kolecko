@@ -22,6 +22,7 @@
           = submenu(t(:visits), 'fa fa-map-signs') do
             = submenu_item(t(:new_visit), new_visit_path)
             = submenu_item('Příchody a odchody', visits_path)
+            = submenu_item('OCoinový účet', ocoins_path)
           = submenu('Odpovědi', 'fa fa-comment') do
             = submenu_item(t(:new_answer), new_answer_path)
             = submenu_item(t(:my_answers), answers_path)

@@ -25,6 +25,9 @@ class VisitsController < ApplicationController
       if @visit.save
         if @puzzle.puztype == "secondary"
           current_team.points += @puzzle.points
+          ot = OcoinTransaction.new(team: current_team, points: @puzzle.points,
+                                    message: 'Vyzvednutí šifry %s' % @puzzle.name)
+          ot.save
           current_team.save
         end
         redirect_to visits_path

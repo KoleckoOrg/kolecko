@@ -49,18 +49,33 @@ class AnswersController < ApplicationController
                 count = @hint_request.hints.count
                 # If no hint was received, just return 70% of the points to the team
                 if count == 0
-                  current_team.points += @hint_request.bounty * 7 / 10
+                  amount = @hint_request.bounty * 7 / 10
+                  current_team.points += amount
+                  ot = OcoinTransaction.new(team: current_team, points: amount,
+                                message: '70% bodů zpět za nevyužitou nápovědu k šifře %s' \
+                                % @hint_request.visit.puzzle.name)
+                  ot.save
+
                 # else split it between all teams which sent hints
                 else
                   @hint_request.hints.each do |h|
                     t = Team.find_by(id: h.team_id)
-                    t.points += @hint_request.bounty * 7 / 10 / count
+                    amount = @hint_request.bounty * 7 / 10 / count
+                    t.points += amount
+                    ot = OcoinTransaction.new(team: t, points: amount,
+                                  message: 'Odměna za nápovědu k %s' \
+                                  % @hint_request.visit.puzzle.name)
+                    ot.save
                     t.save
                   end
                 end
                 @hint_request.save
               end
             end
+
+            ot = OcoinTransaction.new(team: current_team, points: @answer.solution.points,
+                                     message: 'Řešení šifry %s' % @puzzle.name)
+            ot.save
 
             current_team.points += @answer.solution.points
             current_team.save
@@ -75,6 +90,7 @@ class AnswersController < ApplicationController
 
           else
             flash[:alert] = 'Špatná odpověď'
+            #FIXME: Substract points here if too many bad answers
             @visit.wrong_answers += 1
           end
           @visit.save

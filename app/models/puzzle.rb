@@ -7,6 +7,7 @@ class Puzzle < ApplicationRecord
   enum puztype: [:main, :secondary, :final]
 
   validates :solutions, presence: true
+  validates :puztype, presence: true
 
   before_save do
     self.code.normalize!
